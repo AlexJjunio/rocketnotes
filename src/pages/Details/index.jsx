@@ -19,7 +19,7 @@ export function Details() {
       <h1>
         Introdução ao React
       </h1>
-
+      
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos omnis amet dolorem et sunt quae quisquam optio cupiditate accusantium, placeat reiciendis ducimus neque, dolor necessitatibus voluptatem veniam rerum numquam non. Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae ex iste cupiditate eligendi vel fuga hic ad ab recusandae tenetur architecto provident, esse numquam, nam qui rem sequi in tempora.
       </p>
@@ -34,11 +34,14 @@ export function Details() {
           </li>
         </Links>
       </Section>
+
       <Section title="Marcadores">
         <Tag title="express"/>
         <Tag title="nodejs"/>
       </Section>
+
       <Button title="Voltar" />
+
         </Content>
       </main>
 
