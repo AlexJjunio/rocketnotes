@@ -31,7 +31,7 @@ export const Brand = styled.div`
   
   background-color: ${({theme}) => theme.COLORS.BACKGROUND_900};
 
-  >h1 {
+  > h1 {
     font-size: 24px;
     color: ${({theme}) => theme.COLORS.ORANGE};
     
@@ -41,7 +41,16 @@ export const Brand = styled.div`
 
 export const Menu = styled.ul`
   grid-area: menu;
-  background-color: blue;
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  
+  padding-top: 64px;
+
+  text-align: center;
+
+  background-color: ${({theme}) => theme.COLORS.BACKGROUND_900};
 `;
 
 export const Search = styled.div`
