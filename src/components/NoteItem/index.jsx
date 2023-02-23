@@ -1,21 +1,24 @@
-import { FiPlus, FiX} from 'react-icons/ri';
+import { FiPlus, FiX} from 'react-icons/fi';
 
 import { Container } from './style'
 
-export function NoteItem(isNew, value, onClick, ...rest) {
-  <Container>
-    <input 
-      type="text" 
-      value={value}
-      readOnly={!isNew}
-      {...rest}
-    />
+export function NoteItem({isNew, value, onClick, ...rest}) {
+  return (
+    <Container>
+      <input 
+        type="text" 
+        value={value}
+        readOnly={!isNew}
+        {...rest}
+      />
 
-    <button 
-      type='button'
-      onClick={onClick}  
-    >
-      { isNew ? <FiPlus/> : <FiX/>}
-    </button>
-  </Container>
+      <button 
+        type='button'
+        onClick={onClick} 
+        className={isNew ? 'button-add' : 'button-delete'}
+      >
+        { isNew ? <FiPlus/> : <FiX/>}
+      </button>
+    </Container>
+  )
 }
