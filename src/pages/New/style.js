@@ -23,9 +23,6 @@ export const Form = styled.form`
 
     margin-bottom: 36px;
 
-    h1 {
-    }
-
     a {
       font-size: 20px;
       color: ${({theme}) => theme.COLORS.GRAY_100};
