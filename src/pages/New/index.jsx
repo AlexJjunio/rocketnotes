@@ -20,6 +20,7 @@ export function New() {
 
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
+
  
   const navigate = useNavigate()
 
@@ -42,6 +43,18 @@ export function New() {
   }
 
   async function handleNewNote() {
+    if(!title) {
+      return alert('Adicione um título a sua nota.')
+    }
+
+    if(newLink) {
+      return alert('Você esqueceu de adicionar um link.')
+    }
+
+    if(newTag) {
+      return alert('Você esqueceu de adicionar uma tag.')
+    }
+
     await api.post("/notes", {
       title,
       description,
