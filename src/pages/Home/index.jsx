@@ -1,5 +1,5 @@
 import { FiPlus, FiSearch } from 'react-icons/fi'
-import {Container, Brand, Menu, Search,Content, NewNote} from './style';
+import { Container, Brand, Menu, Search, Content, NewNote } from './style';
 
 import { useState, useEffect } from 'react';
 import { api } from '../../services/api';
@@ -13,6 +13,19 @@ import { ButtonText } from '../../components/ButtonText';
 
 export function Home() {
   const [tags, setTags] = useState([])
+  const [tagsSelected, setTagsSelected] = useState([])
+
+  function handleTagSelected(tagName) {
+    const alreadySelected = tagsSelected.includes(tagName);
+
+    if(alreadySelected) {
+      const filteredTags = tagsSelected.filter(tag => tag !== tagName)
+      setTagsSelected(filteredTags)
+    } else {
+      setTagsSelected(prevState => [...prevState, tagName])
+    }
+
+  }
 
   useEffect(() => {
     async function fetchTags() {
@@ -21,36 +34,48 @@ export function Home() {
     }
 
     fetchTags();
-  },[])
+  }, [])
 
-  return(
+  return (
     <Container>
       <Brand>
         <h1>Rocketnotes</h1>
       </Brand>
 
-      <Header/>
+      <Header />
 
       <Menu>
-        <li><ButtonText title="Todos" isActive/></li>
+        <li>
+          <ButtonText
+            title="Todos"
+            isActive={tagsSelected.length === 0}
+            onClick={() => handleTagSelected('all')}
+          />
+        </li>
         {
           tags && tags.map(tag => (
-            <li key={String(tag.id)}><ButtonText title={tag.name}/></li>
+            <li key={String(tag.id)}>
+              <ButtonText
+                title={tag.name}
+                onClick={() => handleTagSelected(tag.name)}
+                isActive={tagsSelected.includes(tag.name)}
+              />
+            </li>
           ))
         }
       </Menu>
 
       <Search>
-        <Input icon={FiSearch} placeholder="Pesquisar pelo título"/>
+        <Input icon={FiSearch} placeholder="Pesquisar pelo título" />
       </Search>
 
       <Content>
         <Section title="Minhas notas">
           <Note data={{
-            title: 'React', 
+            title: 'React',
             tags: [
-              {id: '1',name: 'react'},
-              {id: '2',name: 'rocketseat'},
+              { id: '1', name: 'react' },
+              { id: '2', name: 'rocketseat' },
             ]
           }}
           />
@@ -58,7 +83,7 @@ export function Home() {
       </Content>
 
       <NewNote to="/new">
-        <FiPlus/>
+        <FiPlus />
         Criar nota
       </NewNote>
     </Container>
