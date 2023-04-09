@@ -14,11 +14,13 @@ import { ButtonText } from '../../components/ButtonText';
 export function Home() {
   const [tags, setTags] = useState([])
   const [tagsSelected, setTagsSelected] = useState([])
+  const [search, setSearch] = useState('')
+  const [notes, setNotes] = useState([])
 
   function handleTagSelected(tagName) {
     const alreadySelected = tagsSelected.includes(tagName);
 
-    if(alreadySelected) {
+    if (alreadySelected) {
       const filteredTags = tagsSelected.filter(tag => tag !== tagName)
       setTagsSelected(filteredTags)
     } else {
@@ -32,9 +34,18 @@ export function Home() {
       const response = await api.get("/tags")
       setTags(response.data)
     }
-
     fetchTags();
   }, [])
+
+  useEffect(() => {
+    async function fetchNotes() {
+      const response = await api.get(`/notes?title=${search}&tags=${tagsSelected}`)
+      setNotes(response.data);
+    }
+
+    fetchNotes()
+
+  }, [tagsSelected, search])
 
   return (
     <Container>
@@ -66,19 +77,23 @@ export function Home() {
       </Menu>
 
       <Search>
-        <Input icon={FiSearch} placeholder="Pesquisar pelo título" />
+        <Input
+          icon={FiSearch}
+          placeholder="Pesquisar pelo título"
+          onChange={() => setSearch(e.target.value)}
+        />
       </Search>
 
       <Content>
         <Section title="Minhas notas">
-          <Note data={{
-            title: 'React',
-            tags: [
-              { id: '1', name: 'react' },
-              { id: '2', name: 'rocketseat' },
-            ]
-          }}
-          />
+          {
+            notes.map(note => (
+              <Note 
+                data={note}
+                key={String(note.id)}
+              />
+            ))
+          }
         </Section>
       </Content>
 
