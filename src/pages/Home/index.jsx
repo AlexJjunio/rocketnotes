@@ -18,6 +18,10 @@ export function Home() {
   const [notes, setNotes] = useState([])
 
   function handleTagSelected(tagName) {
+    if(tagName === 'all') {
+      return setTagsSelected([]);
+    }
+
     const alreadySelected = tagsSelected.includes(tagName);
 
     if (alreadySelected) {
@@ -80,7 +84,7 @@ export function Home() {
         <Input
           icon={FiSearch}
           placeholder="Pesquisar pelo título"
-          onChange={() => setSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
         />
       </Search>
 
