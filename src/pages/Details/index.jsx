@@ -30,6 +30,13 @@ export function Details() {
   function handleBack() {
     navigate('/')
   }
+  
+  async function handleRemove() {
+    const confirm = window.confirm("Deseja remover está nota?")
+
+    await api.delete(`/notes/${params.id}`)
+    navigate("/")
+  }
 
   return (
 
@@ -40,7 +47,10 @@ export function Details() {
         data &&
         <main>
           <Content>
-            <ButtonText title="Excluir nota" />
+            <ButtonText
+              title="Excluir nota"
+              onClick={handleRemove}
+            />
 
             <h1>
               {data.tittle}
@@ -70,7 +80,7 @@ export function Details() {
               <Section title="Marcadores">
                 {
                   data.tags.map(tag => (
-                    < Tag 
+                    < Tag
                       key={String(tag.id)}
                       title={tag.name}
                     />
