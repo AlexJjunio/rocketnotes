@@ -1,5 +1,11 @@
 import { Container, Links, Content } from "./style"
 
+import { useNavigate, useParams } from 'react-router-dom';
+
+import { useState, useEffect } from "react";
+
+import { api } from "../../services/api";
+
 import { Header } from "../../components/Header"
 import { Button } from "../../components/Button"
 import { ButtonText } from "../../components/ButtonText"
@@ -7,44 +13,81 @@ import { Section } from "../../components/Section"
 import { Tag } from "../../components/Tag"
 
 export function Details() {
-  return(
+  const [data, setData] = useState(null)
+  const params = useParams();
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    async function fetchNote() {
+      const response = await api.get(`/notes/${params.id}`)
+      setData(response.data);
+    }
+
+    fetchNote();
+
+  }, [])
+
+  function handleBack() {
+    navigate('/')
+  }
+
+  return (
 
     <Container>
-      <Header/>
+      <Header />
 
-      <main>
-        <Content>
-      <ButtonText title="Excluir nota"/>
+      {
+        data &&
+        <main>
+          <Content>
+            <ButtonText title="Excluir nota" />
 
-      <h1>
-        Introdução ao React
-      </h1>
-      
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos omnis amet dolorem et sunt quae quisquam optio cupiditate accusantium, placeat reiciendis ducimus neque, dolor necessitatibus voluptatem veniam rerum numquam non. Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae ex iste cupiditate eligendi vel fuga hic ad ab recusandae tenetur architecto provident, esse numquam, nam qui rem sequi in tempora.
-      </p>
+            <h1>
+              {data.tittle}
+            </h1>
 
-      <Section title="Links úteis">
-        <Links>
-          <li>
-            <a href="https://www.instagram.com/alex_jjunio/">https://www.instagram.com/alex_jjunio/</a>
-            </li>
-          <li>
-            <a href="https://www.linkedin.com/in/alex-junio-3a6b00214/">https://www.linkedin.com/in/alex-junio-3a6b00214/</a>
-          </li>
-        </Links>
-      </Section>
+            <p>
+              {data.description}
+            </p>
 
-      <Section title="Marcadores">
-        <Tag title="express"/>
-        <Tag title="nodejs"/>
-      </Section>
+            {
+              data.links &&
+              <Section title="Links úteis">
+                <Links>
+                  {
+                    data.links.map(link => (
+                      <li key={String(link.id)}>
+                        <a target="_blank" href="{link.url}">{link.url}</a>
+                      </li>
+                    ))
+                  }
+                </Links>
+              </Section>
+            }
 
-      <Button title="Voltar" />
+            {
+              data.tags &&
+              <Section title="Marcadores">
+                {
+                  data.tags.map(tag => (
+                    < Tag 
+                      key={String(tag.id)}
+                      title={tag.name}
+                    />
+                  ))
+                }
+              </Section>
+            }
 
-        </Content>
-      </main>
+            <Button
+              title="Voltar"
+              onClick={handleBack}
+            />
 
-    </Container>
+          </Content>
+        </main>
+      }
+
+    </Container >
   )
 }

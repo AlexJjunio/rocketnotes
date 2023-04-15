@@ -3,6 +3,7 @@ import { Container, Brand, Menu, Search, Content, NewNote } from './style';
 
 import {useNavigate} from 'react-router-dom'
 
+
 import { useState, useEffect } from 'react';
 import { api } from '../../services/api';
 
